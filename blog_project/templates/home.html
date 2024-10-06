@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Home{% endblock title %} 
+{% block content %}
+
+<div class="d-flex container my-5 gap-5 align-items-center">
+  <div class="col-6">
+    <h1 class="mb-5">Welcome To Django Blog</h1>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem minus inventore, corporis asperiores ex tenetur necessitatibus quibusdam velit nisi possimus cupiditate cumque modi sapiente maiores aliquam quidem distinctio nam sequi?</p>
+  </div>
+  <div class="col-6">
+    <img src=" {% static 'blog_image.jpg' %} " alt="">
+  </div>
+</div>
+
+<div class="container mt-5 mb-5">
+  <h4 class="text-center mb-3">{{data | length}} results found</h4>
+  <div class="row">
+
+    <div class="col-2 shadow-sm pt-5 bg-body-tertiary">
+      <h5 class="text-decoration-underline">All Categories</h5>
+      {% for ctg in category %}
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="category" id="{{ctg.id}}">
+        <label class="form-check-label" for="{{ctg.id}}">  
+          <a href="{% url "category_wise_post" ctg.slug %}" class="text-decoration-none text-dark">{{ctg.name}}</a>
+        </label>
+      </div>
+      {% endfor %}
+
+    </div>
+    
+    <div class="col-10 d-flex flex-wrap">
+      {% for post in data %}
+    <div class="col-sm-4 mb-3 px-2">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">{{post.title}}</h5>
+            <p class="card-text">{{post.content}}</p>
+            <p class="card-text"><strong>Author :</strong> {{post.author.first_name}} {{post.author.last_name}}</p>
+            <p class="card-text"><strong>Category :</strong>
+            {% for ctg in post.category.all %}
+            <a class="btn btn-light btn-sm disabled">{{ctg.name}}</a>
+            {% endfor %}
+            </p>
+            
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+    </div>
+    
+  </div>
+</div>
+{% endblock content %}
